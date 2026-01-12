@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MuradGPT Chat</title>
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,29 +15,12 @@
       height: 100vh;
     }
 
-    /* Header ilə şəkil */
     header {
-      background-image: url("bg.jpg"); /* GitHub-da yüklədiyin şəkil adı */
-      background-size: cover;
-      background-position: center;
+      background: #007bff;
       color: white;
       padding: 40px 20px;
       text-align: center;
       font-size: 1.8rem;
-      position: relative;
-    }
-
-    /* Yazını oxunaqlı etmək üçün overlay */
-    header::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-    }
-
-    header * {
-      position: relative;
-      z-index: 1;
     }
 
     #chat {
@@ -94,7 +76,6 @@
     }
   </style>
 </head>
-
 <body>
 
 <header>
@@ -114,13 +95,16 @@
   const messages = document.getElementById("messages");
   const input = document.getElementById("userInput");
 
+  // Demo cavab generator (ChatGPT üslubunda)
   function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
 
-    // Demo cavab
     addMessage("user", text);
-    addMessage("bot", "MuradGPT cavab verir: demo versiyadır 🙂");
+
+    // Sadə demo cavab (ChatGPT kimi) 
+    let botReply = generateBotReply(text);
+    addMessage("bot", botReply);
 
     input.value = "";
   }
@@ -132,7 +116,20 @@
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
+
+  // Demo ChatGPT üslubu cavab
+  function generateBotReply(userText) {
+    const replies = [
+      "Maraqlı sualdır! 🙂",
+      "Bunu belə izah edə bilərəm...",
+      "Əgər istəyirsənsə daha ətraflı danışa bilərəm.",
+      "Bu barədə fikrim belədir:",
+      "Çox gözəl, davam edək!"
+    ];
+
+    // Sadə random cavab
+    return replies[Math.floor(Math.random() * replies.length)];
+  }
 </script>
 
-</body>
-</html>
+</body
