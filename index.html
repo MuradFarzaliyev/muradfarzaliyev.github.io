@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MuradGPT Chat</title>
 
   <style>
@@ -16,16 +16,30 @@
       height: 100vh;
     }
 
-    MY PROFİL {
-  background-image: url("header.jpg");
-  background-size: cover;
-  background-position: center;
-  color: white;
-  padding: 40px 20px;
-  text-align: center;
-  font-size: 1.8rem;
-}
+    /* Header ilə şəkil */
+    header {
+      background-image: url("bg.jpg"); /* GitHub-da yüklədiyin şəkil adı */
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      position: relative;
+    }
 
+    /* Yazını oxunaqlı etmək üçün overlay */
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+
+    header * {
+      position: relative;
+      z-index: 1;
+    }
 
     #chat {
       flex: 1;
@@ -104,6 +118,7 @@
     const text = input.value.trim();
     if (!text) return;
 
+    // Demo cavab
     addMessage("user", text);
     addMessage("bot", "MuradGPT cavab verir: demo versiyadır 🙂");
 
