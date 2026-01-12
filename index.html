@@ -95,16 +95,15 @@
   const messages = document.getElementById("messages");
   const input = document.getElementById("userInput");
 
-  // Demo cavab generator (ChatGPT üslubunda)
   function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
 
     addMessage("user", text);
 
-    // Sadə demo cavab (ChatGPT kimi) 
-    let botReply = generateBotReply(text);
-    addMessage("bot", botReply);
+    // ChatGPT üslubunda cavab
+    const botReply = generateBotReply(text);
+    setTimeout(() => addMessage("bot", botReply), 500); // 0.5s gecikmə, real chat effekti
 
     input.value = "";
   }
@@ -117,19 +116,11 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  // Demo ChatGPT üslubu cavab
+  // Demo ChatGPT üslubu cavab generator
   function generateBotReply(userText) {
-    const replies = [
-      "Maraqlı sualdır! 🙂",
-      "Bunu belə izah edə bilərəm...",
-      "Əgər istəyirsənsə daha ətraflı danışa bilərəm.",
-      "Bu barədə fikrim belədir:",
-      "Çox gözəl, davam edək!"
-    ];
+    const keywords = ["salam","necesen","haqqında","yardım"];
+    let reply = "";
 
-    // Sadə random cavab
-    return replies[Math.floor(Math.random() * replies.length)];
-  }
-</script>
-
-</body
+    if(userText.toLowerCase().includes("salam")) reply = "Salam! 😊 Sizi görmək xoşdur.";
+    else if(userText.toLowerCase().includes("necesen")) reply = "Mən yaxşıyam, təşəkkür edirəm! Siz necəsiniz?";
+    else if(us
