@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#chat {
+  max-width: 600px;
+  margin: 30px auto;
+  background: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.user {
+  color: blue;
+  margin: 5px 0;
+}
+
+.bot {
+  color: green;
+  margin: 5px 0;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+}
+
+button {
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
