@@ -1,80 +1,76 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MuradGPT Chat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f2f2f2;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    header {
-      background: #007bff;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-      font-size: 1.8rem;
-    }
-
-    #chat {
-      flex: 1;
-      max-width: 700px;
-      margin: 20px auto;
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-
-    .user {
-      color: #007bff;
-      margin: 5px 0;
-    }
-
-    .bot {
-      color: #198754;
-      margin: 5px 0;
-    }
-
-    .input-area {
-      display: flex;
-      gap: 10px;
-    }
-
-    input {
-      flex: 1;
-      padding: 10px;
-      font-size: 1rem;
-    }
-
-    button {
-      padding: 10px 15px;
-      font-size: 1rem;
-      background: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    button:hover {
-      background: #0056b3;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MuradGPT Chat</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+header {
+  background: url('bg.jpg') center/cover no-repeat;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+#chat {
+  flex: 1;
+  max-width: 700px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+.user {
+  color: #007bff;
+  margin: 5px 0;
+}
+.bot {
+  color: #198754;
+  margin: 5px 0;
+}
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+button:hover {
+  background: #0056b3;
+}
+</style>
 </head>
 <body>
 
@@ -84,7 +80,6 @@
 
 <div id="chat">
   <div id="messages"></div>
-
   <div class="input-area">
     <input type="text" id="userInput" placeholder="Mesajınızı yazın..." />
     <button onclick="sendMessage()">Göndər</button>
@@ -92,35 +87,65 @@
 </div>
 
 <script>
-  const messages = document.getElementById("messages");
-  const input = document.getElementById("userInput");
+const messages = document.getElementById("messages");
+const input = document.getElementById("userInput");
 
-  function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+  addMessage("user", text);
+  setTimeout(() => addMessage("bot", smartBrain(text)), 600);
+  input.value = "";
+}
 
-    addMessage("user", text);
+function addMessage(type, text) {
+  const div = document.createElement("div");
+  div.className = type;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
 
-    // ChatGPT üslubunda cavab
-    const botReply = generateBotReply(text);
-    setTimeout(() => addMessage("bot", botReply), 500); // 0.5s gecikmə, real chat effekti
+function smartBrain(q) {
+  const t = q.toLowerCase();
 
-    input.value = "";
+  if (t.includes("adın") || t.includes("kimsən"))
+    return "Mən MuradGPT’yəm, sənin virtual köməkçin 🙂";
+
+  if (t.includes("salam") || t.includes("hello"))
+    return "Salam! Nə barədə danışmaq istəyirsən?";
+
+  if (t.includes("necesen") || t.includes("necəsən"))
+    return "Mən yaxşıyam, təşəkkür edirəm! Sən necəsən?";
+
+  if (/^[0-9\.\s\+\-\*\/\(\)]+$/.test(t)) {
+    try { return "Cavab: " + eval(t); } 
+    catch { return "Hesablaya bilmədim 😅"; }
   }
 
-  function addMessage(type, text) {
-    const div = document.createElement("div");
-    div.className = type;
-    div.textContent = text;
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-  }
+  if (t.includes("həyat") || t.includes("yasam"))
+    return "Həyat seçimlərdən ibarətdir. İnsan öyrəndikcə böyüyür, səhv etdikcə güclənir.";
 
-  // Demo ChatGPT üslubu cavab generator
-  function generateBotReply(userText) {
-    const keywords = ["salam","necesen","haqqında","yardım"];
-    let reply = "";
+  if (t.includes("uğur"))
+    return "Uğur davamlılıqdır. Dayanmayan insan məqsədinə çatır.";
 
-    if(userText.toLowerCase().includes("salam")) reply = "Salam! 😊 Sizi görmək xoşdur.";
-    else if(userText.toLowerCase().includes("necesen")) reply = "Mən yaxşıyam, təşəkkür edirəm! Siz necəsiniz?";
-    else if(us
+  if (t.includes("ai") || t.includes("süni intellekt"))
+    return "Süni intellekt insan düşüncəsini təqlid edən sistemdir. Mən bunun sadə bir nümunəsiyəm.";
+
+  if (t.includes("dünya"))
+    return "Dünya mürəkkəbdir, amma onu anlamağın yolu sual verməkdir.";
+
+  const smartReplies = [
+    "Bu mövzu fərqli baxış bucaqlarından yanaşma tələb edir.",
+    "Bir az daha konkret desən, daha dəqiq cavab verə bilərəm.",
+    "Bu sual düşündürücüdür və üzərində dayanmağa dəyər.",
+    "Burada əsas məqam səbəb-nəticə əlaqəsidir.",
+    "Gözəl sualdır, bunu mərhələli izah etmək olar."
+  ];
+
+  return smartReplies[Math.floor(Math.random() * smartReplies.length)];
+}
+</script>
+
+</body>
+</html>
