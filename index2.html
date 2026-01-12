@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MuradGPT</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .dark {
+    background-color: #111;
+    color: #eee;
+  }
+  header {
+    padding: 10px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+  }
+  #chatbox {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+  }
+  #inputArea {
+    display: flex;
+    margin: 10px;
+  }
+  #userInput {
+    flex: 1;
+    padding: 5px;
+  }
+  button {
+    padding: 5px 10px;
+    margin-left: 5px;
+  }
+  #info {
+    margin: 10px;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>MuradGPT</h1>
+  <button onclick="toggleMode()">🌙 / ☀️</button>
+</header>
+
+<div id="chatbox"></div>
+
+<div id="inputArea">
+  <input type="text" id="userInput" placeholder="Mesaj yaz...">
+  <button onclick="sendMessage()">Göndər</button>
+</div>
+
+<div id="info">
+  Qalan şəkil: <span id="imageCount">5</span> | Qalan vaxt: <span id="timer">60:00</span><br>
+  Gmail ilə login etmək üçün <button onclick="loginGmail()">Giriş</button>
+</div>
+
+<script>
+// Light/Dark toggle
+function toggleMode() {
+  document.body.classList.toggle('dark');
+}
+
+// 5 şəkil limiti
+let maxImages = 5;
+let imageCount = maxImages;
+document.getElementById('imageCount').innerText = imageCount;
+
+// 1 saat taymer
+let timeLeft = 60*60; // saniyə
+function updateTimer() {
+  let min = Math.floor(timeLeft/60);
+  let sec = timeLeft%60;
+  document.getElementById('timer').innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
+  if(timeLeft>0){
+    timeLeft--;
+  } else {
+    alert("1 saatlıq limit bitdi. Gmail ilə giriş edin və ya sabah yenidən cəhd edin.");
+    disableChat();
+  }
+}
+setInterval(updateTimer,1000);
+
+function disableChat(){
+  document.getElementById('userInput').disabled = true;
+  document.querySelector('#inputArea button').disabled = true;
+}
+
+// Gmail login seçimi (sadə demo)
+function loginGmail(){
+  alert("Gmail login funksiyası gələcəkdə aktiv olacaq.");
+}
+
+// Chat funksiyası (sadə demo)
+function sendMessage(){
+  let input = document.getElementById('userInput');
+  let msg = input.value.trim();
+  if(msg === "") return;
+  let chatbox = document.getElementById('chatbox');
+  let userMsg = document.createElement('div');
+  userMsg.textContent = "Sən: " + msg;
+  chatbox.appendChild(userMsg);
+
+  // Şəkil soruşma yoxlaması
+  if(msg.toLowerCase().includes("şəkil") && imageCount>0){
+    let aiMsg = document.createElement('div');
+    aiMsg.textContent = "MuradGPT: Burada şəkil yaradıldı! 🖼️";
+    chatbox.appendChild(aiMsg);
+    imageCount--;
+    document.getElementById('imageCount').innerText = imageCount;
+  } else if(msg.toLowerCase().includes("şəkil") && imageCount<=0){
+    let aiMsg = document.createElement('div');
+    aiMsg.textContent = "MuradGPT: Bugün üçün şəkil limiti bitdi.";
+    chatbox.appendChild(aiMsg);
+  } else {
+    let aiMsg = document.createElement('div');
+    aiMsg.textContent = "MuradGPT: " + "Bu suala cavab verirəm: " + msg;
+    chatbox.appendChild(aiMsg);
+  }
+
+  input.value = "";
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+</script>
+
+</body>
+</html>
